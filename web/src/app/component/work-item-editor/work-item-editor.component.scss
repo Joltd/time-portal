@@ -1,0 +1,13 @@
+:host {
+  padding: 2em;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1em;
+}
+
+mat-chip {
+  min-width: 5em;
+}

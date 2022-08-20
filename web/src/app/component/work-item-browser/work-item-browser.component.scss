@@ -1,0 +1,22 @@
+:host {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  padding: 1em;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  justify-items: center;
+  align-items: center;
+}
+
+.task {
+  display: grid!important;
+  grid-template-columns: 1fr 5em 1fr;
+}
+
+.tracker {
+  color: #616161;
+  text-align: center;
+}

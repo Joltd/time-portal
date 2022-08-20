@@ -1,0 +1,30 @@
+<form [formGroup]="form">
+
+  <mat-form-field>
+    <mat-label>Task</mat-label>
+    <input matInput formControlName="task">
+  </mat-form-field>
+
+  <mat-chip-list>
+    <mat-chip (click)="setTask(predefined)" *ngFor="let predefined of predefinedTasks">{{predefined.label}}</mat-chip>
+  </mat-chip-list>
+
+  <mat-form-field>
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="date" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+    <mat-datepicker #date></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Duration</mat-label>
+    <input matInput formControlName="duration">
+  </mat-form-field>
+
+  <mat-chip-list>
+    <mat-chip (click)="setDuration(predefined)" *ngFor="let predefined of predefinedDurations">{{predefined.label}}</mat-chip>
+  </mat-chip-list>
+
+</form>
+
+<button mat-fab class="fab" (click)="save()" [disabled]="form.disabled"><mat-icon>done</mat-icon></button>

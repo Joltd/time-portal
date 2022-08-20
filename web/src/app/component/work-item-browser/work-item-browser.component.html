@@ -1,0 +1,33 @@
+<div class="week">
+  <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: prevWeek()}" [disabled]="workItemService.loading">
+    <mat-icon>navigate_before</mat-icon>
+  </button>
+  <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: currentWeek()}" [disabled]="workItemService.loading">
+    Week {{this.workItemService.week | date:'yyyy-MM-dd'}}
+  </button>
+  <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: nextWeek()}" [disabled]="workItemService.loading">
+    <mat-icon>navigate_next</mat-icon>
+  </button>
+</div>
+<mat-list>
+  <ng-container *ngFor="let day of workItemService.data; let last = last">
+    <div matSubheader>{{day.date}}</div>
+    <mat-list-item *ngFor="let task of day.tasks">
+      <div matLine class="task">
+        <div>{{task.name}}</div>
+        <div class="tracker" *ngIf="task.tracker > 0">({{iso(task.tracker)}})</div>
+        <div *ngIf="task.tracker == 0"></div>
+        <div>{{iso(task.portal)}}</div>
+      </div>
+      <button *ngIf="task.portal > 0" mat-icon-button [routerLink]="[task.id]" [disabled]="workItemService.loading">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button *ngIf="task.portal > 0" mat-icon-button (click)="workItemService.delete(task.id)" [disabled]="workItemService.loading">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+    <mat-divider *ngIf="!last"></mat-divider>
+  </ng-container>
+</mat-list>
+
+<button mat-fab class="fab" [routerLink]="['new']" [disabled]="workItemService.loading"><mat-icon>add</mat-icon></button>
