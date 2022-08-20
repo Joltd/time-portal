@@ -1,6 +1,6 @@
 package com.evgenltd.timeportal.service.youtrack
 
-class YoutrackWorkItemResponse() : ArrayList<WorkItem>()
+class YoutrackWorkItemResponse : ArrayList<WorkItem>()
 
 class WorkItem(
     val id: String,

@@ -23,6 +23,8 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatDialogModule} from "@angular/material/dialog";
 import {HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,11 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     MatChipsModule,
     MatDialogModule,
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     restInterceptorProvider,

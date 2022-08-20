@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {DayGroup, WorkItem} from "../model/work-item.model";
 import {environment} from "../../environments/environment";
 import {TypeUtils} from "./type-utils";
-import {map} from "rxjs/operators";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
