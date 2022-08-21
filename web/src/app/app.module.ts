@@ -19,12 +19,14 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatListModule} from "@angular/material/list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatChipsModule} from "@angular/material/chips";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatDialogModule} from "@angular/material/dialog";
 import {HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   declarations: [
@@ -53,12 +55,15 @@ import { environment } from '../environments/environment';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    MatMenuModule,
+    MatProgressBarModule
   ],
   providers: [
     restInterceptorProvider,
     ErrorService,
-    WorkItemService
+    WorkItemService,
+    [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}]
   ],
   bootstrap: [AppComponent]
 })

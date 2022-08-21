@@ -5,12 +5,14 @@ export class WorkItem {
   duration!: number
 }
 
-export class DayGroup {
+export class DayWork {
   date!: string
-  tasks: TaskGroup[] = []
+  portal: number = 0
+  tracker: number = 0
+  tasks: TaskWork[] = []
 }
 
-export class TaskGroup {
+export class TaskWork {
   id!: string
   name!: string
   portal: number = 0

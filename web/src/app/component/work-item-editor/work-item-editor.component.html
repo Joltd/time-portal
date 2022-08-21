@@ -16,6 +16,10 @@
     <mat-datepicker #date></mat-datepicker>
   </mat-form-field>
 
+  <mat-chip-list>
+    <mat-chip (click)="setDate(predefined)" *ngFor="let predefined of predefinedDates">{{predefined.label}}</mat-chip>
+  </mat-chip-list>
+
   <mat-form-field>
     <mat-label>Duration</mat-label>
     <input matInput formControlName="duration">

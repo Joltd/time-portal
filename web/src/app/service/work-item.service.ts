@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {DayGroup, WorkItem} from "../model/work-item.model";
+import {DayWork, WorkItem} from "../model/work-item.model";
 import {environment} from "../../environments/environment";
 import {TypeUtils} from "./type-utils";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -11,23 +11,30 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class WorkItemService {
 
-  week: Date = new Date()
-  data: DayGroup[] = []
+  week!: Date
+  data: DayWork[] = []
   loading: boolean = false
 
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.setWeek(new Date())
+  }
 
-  loadWeek(date: Date) {
-    this.loading = true
+  private setWeek(date: Date) {
     let day = date.getDay();
     let diff = date.getDate() - day + (day == 0 ? -6 : 1)
     this.week = new Date(date.setDate(diff))
-    this.http.get<DayGroup[]>(`${environment.api}/api/work-item?week=${dateToString(this.week)}`, TypeUtils.of(DayGroup))
+  }
+
+  loadWeek(date: Date) {
+    this.loading = true
+    this.setWeek(date)
+    this.http.get<DayWork[]>(`${environment.api}/api/work-item?week=${dateToString(this.week)}`, TypeUtils.of(DayWork))
       .subscribe({
         next: result => this.data = result,
+        error: () => this.loading = false,
         complete: () => this.loading = false
       })
   }
@@ -51,6 +58,16 @@ export class WorkItemService {
           this.snackBar.open(messages.join(", "), 'X', {duration: 3000})
           this.loadWeek(this.week)
         },
+        error: () => this.loading = false,
+        complete: () => this.loading = false
+      })
+  }
+
+  clearCache() {
+    this.loading = true
+    this.http.delete<void>(`${environment.api}/api/task-tracker?week=${dateToString(this.week)}`)
+      .subscribe({
+        error: () => this.loading = false,
         complete: () => this.loading = false
       })
   }

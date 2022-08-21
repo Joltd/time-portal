@@ -1,9 +1,11 @@
 <mat-toolbar color="primary">
   <span class="spacer">Time Portal</span>
-  <button mat-icon-button (click)="this.workItemService.sync()"><mat-icon>sync</mat-icon></button>
+  <button mat-icon-button (click)="this.workItemService.clearCache()"><mat-icon>layers_clear</mat-icon></button>
+  <button mat-icon-button (click)="this.workItemService.sync()"><mat-icon>sync_alt</mat-icon></button>
 </mat-toolbar>
 <mat-sidenav-container>
   <mat-sidenav-content class="content">
+    <mat-progress-bar mode="buffer" *ngIf="workItemService.loading"></mat-progress-bar><div *ngIf="!workItemService.loading"></div>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

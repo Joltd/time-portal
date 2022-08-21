@@ -65,6 +65,7 @@ class WorkItemService(
         return (portalWorkItems + trackerWorkItems)
             .groupBy { it.date }
             .map { it.toDayWork() }
+            .sortedBy { it.date }
     }
 
     fun byId(id: String): WorkItem = workItemRepository.findByIdOrNull(id)
@@ -79,15 +80,18 @@ class WorkItemService(
         }
 
         val existed = workItemRepository.findByDateAndTask(date, task)
-        if (existed == null) {
-            workItemRepository.save(forSave)
-        } else if (forSave.id == null) {
-            existed.duration = duration
-            workItemRepository.save(existed)
-        } else {
-            forSave.duration = (forSave.duration ?: 0) + (existed.duration ?: 0)
-            workItemRepository.save(forSave)
-            workItemRepository.delete(existed)
+        when {
+            existed == null -> workItemRepository.save(forSave)
+            forSave.id == null -> {
+                existed.duration = duration
+                workItemRepository.save(existed)
+            }
+            forSave.id == existed.id -> workItemRepository.save(forSave)
+            else -> {
+                forSave.duration = (forSave.duration ?: 0) + (existed.duration ?: 0)
+                workItemRepository.save(forSave)
+                workItemRepository.delete(existed)
+            }
         }
     }
 
@@ -97,8 +101,12 @@ class WorkItemService(
 
     private fun WorkItem.toInternal() = InternalWorkItem(id, date!!, task!!, duration!!, 0)
 
-    private fun Map.Entry<LocalDate, List<InternalWorkItem>>.toDayWork() =
-        DayWork(key, value.groupBy { it.task }.map { it.trackerToTaskWork() })
+    private fun Map.Entry<LocalDate, List<InternalWorkItem>>.toDayWork(): DayWork {
+        val tasks = value.groupBy { it.task }.map { it.trackerToTaskWork() }
+        val portalSum = tasks.sumOf { it.portal }
+        val trackerSum = tasks.sumOf { it.tracker }
+        return DayWork(key, portalSum, trackerSum, tasks)
+    }
 
     private fun Map.Entry<String, List<InternalWorkItem>>.trackerToTaskWork() = value.reduce { acc, next ->
         InternalWorkItem(acc.id ?: next.id, acc.date, acc.task, acc.portal + next.portal, acc.tracker + next.tracker)
