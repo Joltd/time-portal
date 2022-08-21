@@ -3,6 +3,7 @@ package com.evgenltd.timeportal
 import com.evgenltd.timeportal.service.util.RestLoggingInterceptor
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.http.client.BufferingClientHttpRequestFactory
@@ -14,7 +15,7 @@ import java.time.LocalDate
 
 @SpringBootApplication
 @EnableCaching
-class Application {
+class Application : SpringBootServletInitializer() {
 
     @Bean
     fun webMvcConfigurer(): WebMvcConfigurer = object : WebMvcConfigurer {

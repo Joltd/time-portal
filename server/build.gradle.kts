@@ -37,3 +37,10 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.war {
+    archiveFileName.set("time-portal.war")
+    from("../web/dist/time-portal") {
+        into("WEB-INF/classes/static")
+    }
+}

@@ -25,7 +25,7 @@ export class WorkItemService {
     let day = date.getDay();
     let diff = date.getDate() - day + (day == 0 ? -6 : 1)
     this.week = new Date(date.setDate(diff))
-    this.http.get<DayGroup[]>(`${environment.api}/work-item?week=${dateToString(this.week)}`, TypeUtils.of(DayGroup))
+    this.http.get<DayGroup[]>(`${environment.api}/api/work-item?week=${dateToString(this.week)}`, TypeUtils.of(DayGroup))
       .subscribe({
         next: result => this.data = result,
         complete: () => this.loading = false
@@ -34,7 +34,7 @@ export class WorkItemService {
 
   sync() {
     this.loading = true
-    this.http.post<SyncResult>(`${environment.api}/work-item/sync?week=${dateToString(this.week)}`, null, TypeUtils.of(SyncResult))
+    this.http.post<SyncResult>(`${environment.api}/api/work-item/sync?week=${dateToString(this.week)}`, null, TypeUtils.of(SyncResult))
       .subscribe({
         next: result => {
           let messages = []
@@ -56,15 +56,15 @@ export class WorkItemService {
   }
 
   byId(id: string): Observable<WorkItem> {
-    return this.http.get<WorkItem>(`${environment.api}/work-item/${id}`, TypeUtils.of(WorkItem))
+    return this.http.get<WorkItem>(`${environment.api}/api/work-item/${id}`, TypeUtils.of(WorkItem))
   }
 
   update(workItem: WorkItem): Observable<void> {
-    return this.http.post<void>(`${environment.api}/work-item`, workItem)
+    return this.http.post<void>(`${environment.api}/api/work-item`, workItem)
   }
 
   delete(id: string) {
-    this.http.delete<void>(`${environment.api}/work-item/${id}`)
+    this.http.delete<void>(`${environment.api}/api/work-item/${id}`)
       .subscribe(() => this.loadWeek(this.week))
   }
 

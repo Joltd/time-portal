@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "web": {
+    "time-portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,12 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/web",
+            "outputPath": "dist/time-portal",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "deployUrl": "/time-portal/",
+            "baseHref": "/time-portal/",
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -41,8 +43,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -73,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "web:build:production"
+              "browserTarget": "time-portal:build:production"
             },
             "development": {
-              "browserTarget": "web:build:development"
+              "browserTarget": "time-portal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "web:build"
+            "browserTarget": "time-portal:build"
           }
         },
         "test": {
