@@ -1,5 +1,12 @@
 :host {
-  padding: 2em;
+  padding: 1em;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.wide {
+  width: 50em;
+  justify-self: center;
 }
 
 form {
@@ -10,4 +17,10 @@ form {
 
 mat-chip {
   min-width: 5em;
+}
+
+.fab {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
 }

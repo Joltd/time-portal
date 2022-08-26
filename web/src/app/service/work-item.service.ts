@@ -11,7 +11,7 @@ import {TypeUtils} from "../common/service/type-utils";
 export class WorkItemService {
 
   week!: Date
-  data: DayWork[] = []
+  data: DayWork[] = [{"portal":0,"tracker":480,"tasks":[{"id":"","name":"BACK-85","portal":0,"tracker":480}],"date":"2022-08-15"},{"portal":0,"tracker":480,"tasks":[{"id":"","name":"BACKEND-233","portal":0,"tracker":60},{"id":"","name":"BACK-116","portal":0,"tracker":420}],"date":"2022-08-16"},{"portal":0,"tracker":480,"tasks":[{"id":"","name":"BACK-85","portal":0,"tracker":180},{"id":"","name":"BACK-116","portal":0,"tracker":180},{"id":"","name":"BACK-144","portal":0,"tracker":120}],"date":"2022-08-17"},{"portal":0,"tracker":480,"tasks":[{"id":"","name":"BACKEND-233","portal":0,"tracker":60},{"id":"","name":"BACK-85","portal":0,"tracker":60},{"id":"","name":"BACK-160","portal":0,"tracker":360}],"date":"2022-08-18"},{"portal":0,"tracker":480,"tasks":[{"id":"","name":"BACKEND-233","portal":0,"tracker":60},{"id":"","name":"BACK-160","portal":0,"tracker":300},{"id":"","name":"BACK-144","portal":0,"tracker":120}],"date":"2022-08-19"}]
   loading: boolean = false
 
   constructor(
@@ -91,6 +91,19 @@ export const dateToString = function(date: Date) {
   let month = formatTwoDigit(date.getMonth() + 1)
   let day = formatTwoDigit(date.getDate())
   return `${year}-${month}-${day}`
+}
+
+export const iso = function (duration: number) {
+  let hours = Math.floor(duration / 60)
+  let minutes = duration % 60
+  let parts = []
+  if (hours > 0) {
+    parts.push(hours + 'h')
+  }
+  if (minutes > 0) {
+    parts.push(minutes + 'm')
+  }
+  return parts.join(' ')
 }
 
 const formatTwoDigit = function (value: number) {

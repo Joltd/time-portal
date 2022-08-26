@@ -27,6 +27,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -34,31 +35,32 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     WorkItemBrowserComponent,
     WorkItemEditorComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatListModule,
-    MatSidenavModule,
-    MatChipsModule,
-    MatDialogModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    MatMenuModule,
-    MatProgressBarModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatListModule,
+        MatSidenavModule,
+        MatChipsModule,
+        MatDialogModule,
+        HttpClientModule,
+        MatSnackBarModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        MatMenuModule,
+        MatProgressBarModule,
+        MatCardModule
+    ],
   providers: [
     restInterceptorProvider,
     [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}],

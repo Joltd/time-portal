@@ -1,9 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {dateToString, WorkItemService} from "../../service/work-item.service";
+import {dateToString, iso, WorkItemService} from "../../service/work-item.service";
 import {WorkItem} from "../../model/work-item.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ShortMessageService} from "../../common/service/short-message.service";
+import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'work-item-editor',
@@ -18,6 +20,8 @@ export class WorkItemEditorComponent implements OnInit {
     date: [''],
     duration: ['']
   });
+
+  wide: boolean = false
 
   predefinedTasks: Predefined<string>[] = [
     {value: 'BACKEND-233', label: 'Meetings'},
@@ -46,10 +50,16 @@ export class WorkItemEditorComponent implements OnInit {
     private workItemService: WorkItemService,
     private shortMessageService: ShortMessageService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver,
+    private location: Location
   ) {}
 
   ngOnInit() {
+    this.breakpointObserver.observe(['(min-width: 50em)'])
+      .subscribe((state: BreakpointState) => {
+        this.wide = state.matches
+      })
     this.activatedRoute.params
       .subscribe(params => {
 
@@ -70,6 +80,10 @@ export class WorkItemEditorComponent implements OnInit {
             complete: () => this.form.enable()
           })
       })
+  }
+
+  close() {
+    this.location.back()
   }
 
   save() {
@@ -115,6 +129,10 @@ export class WorkItemEditorComponent implements OnInit {
 
   setDuration(predefined: Predefined<number>) {
     this.form.get('duration')?.setValue(predefined.value)
+  }
+
+  isoDuration() {
+    return iso(this.form.get('duration')?.value || 0)
   }
 
   private fillForm(workItem: WorkItem) {

@@ -1,6 +1,8 @@
 import {Component} from "@angular/core";
-import {dateToString, WorkItemService} from "../../service/work-item.service";
+import {dateToString, iso, WorkItemService} from "../../service/work-item.service";
 import {ActivatedRoute} from "@angular/router";
+import {Platform} from "@angular/cdk/platform";
+import {BreakpointObserver, BreakpointState} from "@angular/cdk/layout";
 
 @Component({
   selector: 'work-item-browser',
@@ -9,10 +11,17 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class WorkItemBrowserComponent {
 
+  wide: boolean = false
+
   constructor(
     public workItemService: WorkItemService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private breakpointObserver: BreakpointObserver
   ) {
+    this.breakpointObserver.observe(['(min-width: 50em)'])
+      .subscribe((state: BreakpointState) => {
+        this.wide = state.matches
+      })
     this.activatedRoute.queryParams
       .subscribe(params => {
         let week = params['week'];
@@ -44,16 +53,7 @@ export class WorkItemBrowserComponent {
   }
 
   iso(duration: number) {
-    let hours = Math.floor(duration / 60)
-    let minutes = duration % 60
-    let parts = []
-    if (hours > 0) {
-      parts.push(hours + 'h')
-    }
-    if (minutes > 0) {
-      parts.push(minutes + 'm')
-    }
-    return parts.join(' ')
+    return iso(duration)
   }
 
 }

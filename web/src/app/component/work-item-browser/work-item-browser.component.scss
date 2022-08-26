@@ -1,8 +1,19 @@
 :host {
   display: grid;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: 1fr;
   padding: 1em;
   overflow: hidden;
+}
+
+mat-card {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  overflow: hidden;
+}
+
+.wide {
+  width: 50em;
+  justify-self: center;
 }
 
 .data {

@@ -1,46 +1,48 @@
-<div class="week">
-  <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: prevWeek()}" [disabled]="workItemService.loading">
-    <mat-icon>navigate_before</mat-icon>
-  </button>
-  <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: currentWeek()}" [disabled]="workItemService.loading">
-    Week {{this.workItemService.week | date:'yyyy-MM-dd'}}
-  </button>
-  <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: nextWeek()}" [disabled]="workItemService.loading">
-    <mat-icon>navigate_next</mat-icon>
-  </button>
-</div>
-<mat-list class="data">
-  <ng-container *ngFor="let day of workItemService.data; let last = last">
-    <div matSubheader class="day row">
-      <div class="title">{{day.date}}</div>
-      <div class="tracker" *ngIf="day.tracker > 0">({{iso(day.tracker)}})</div>
-      <div *ngIf="day.tracker == 0"></div>
-      <div class="portal">
-        <span [ngClass]="{'done': day.portal >= 480}">{{iso(day.portal) || '0h'}}</span>
+<mat-card [class.wide]="wide">
+  <div class="week">
+    <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: prevWeek()}" [disabled]="workItemService.loading">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+    <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: currentWeek()}" [disabled]="workItemService.loading">
+      Week {{this.workItemService.week | date:'yyyy-MM-dd'}}
+    </button>
+    <button mat-button [routerLink]="['/work-item']" [queryParams]="{week: nextWeek()}" [disabled]="workItemService.loading">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+  <mat-list class="data">
+    <ng-container *ngFor="let day of workItemService.data; let last = last">
+      <div matSubheader class="day row">
+        <div class="title">{{day.date}}</div>
+        <div class="tracker" *ngIf="day.tracker > 0">({{iso(day.tracker)}})</div>
+        <div *ngIf="day.tracker == 0"></div>
+        <div class="portal">
+          <span [ngClass]="{'done': day.portal >= 480}">{{iso(day.portal) || '0h'}}</span>
+        </div>
       </div>
-    </div>
-    <mat-list-item *ngFor="let task of day.tasks">
-      <div matLine class="task row">
-        <div class="title">{{task.name}}</div>
-        <div class="tracker" *ngIf="task.tracker > 0">({{iso(task.tracker)}})</div>
-        <div *ngIf="task.tracker == 0"></div>
-        <div class="portal">{{iso(task.portal)}}</div>
-        <button *ngIf="task.portal > 0" mat-icon-button [matMenuTriggerFor]="option">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #option>
-          <button mat-menu-item [routerLink]="[task.id]" [disabled]="workItemService.loading">
-            Edit
+      <mat-list-item *ngFor="let task of day.tasks">
+        <div matLine class="task row">
+          <div class="title">{{task.name}}</div>
+          <div class="tracker" *ngIf="task.tracker > 0">({{iso(task.tracker)}})</div>
+          <div *ngIf="task.tracker == 0"></div>
+          <div class="portal">{{iso(task.portal)}}</div>
+          <button *ngIf="task.portal > 0" mat-icon-button [matMenuTriggerFor]="option">
+            <mat-icon>more_vert</mat-icon>
           </button>
-          <button mat-menu-item (click)="workItemService.delete(task.id)" [disabled]="workItemService.loading">
-            Delete
-          </button>
-        </mat-menu>
-      </div>
+          <mat-menu #option>
+            <button mat-menu-item [routerLink]="[task.id]" [disabled]="workItemService.loading">
+              Edit
+            </button>
+            <button mat-menu-item (click)="workItemService.delete(task.id)" [disabled]="workItemService.loading">
+              Delete
+            </button>
+          </mat-menu>
+        </div>
 
-    </mat-list-item>
-    <mat-divider *ngIf="!last"></mat-divider>
-  </ng-container>
-</mat-list>
+      </mat-list-item>
+      <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+  </mat-list>
 
-<button mat-fab class="fab" [routerLink]="['new']" [disabled]="workItemService.loading"><mat-icon>add</mat-icon></button>
+  <button mat-fab class="fab" [routerLink]="['new']" [disabled]="workItemService.loading"><mat-icon>add</mat-icon></button>
+</mat-card>
