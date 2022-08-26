@@ -4,8 +4,8 @@
   "theme_color": "#c2185b",
   "background_color": "#303030",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./",
+  "scope": "./time-portal",
+  "start_url": "./time-portal",
   "icons": [
     {
       "src": "assets/icons/maskable_icon_x48.png",

@@ -8,8 +8,8 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
 }
 
-group = "com.evgenltd.timeportal"
-version = "1.0.0"
+group = "com.evgenltd"
+version = "1.0"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -39,8 +39,5 @@ tasks.withType<Test> {
 }
 
 tasks.war {
-    archiveFileName.set("time-portal.war")
-    from("../web/dist/time-portal") {
-        into("WEB-INF/classes/static")
-    }
+    archiveFileName.set("${project.name}##${project.version}.${System.getenv("BUILD_NUMBER") ?: "SNAPSHOT"}.war")
 }

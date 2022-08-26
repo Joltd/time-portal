@@ -9,8 +9,8 @@ import {WorkItemEditorComponent} from "./component/work-item-editor/work-item-ed
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
-import {restInterceptorProvider} from "./service/rest-interceptor.service";
-import {ErrorService} from "./service/error.service";
+import {restInterceptorProvider} from "./common/service/rest-interceptor.service";
+import {ErrorService} from "./common/service/error.service";
 import {WorkItemService} from "./service/work-item.service";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -22,7 +22,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatDialogModule} from "@angular/material/dialog";
 import {HttpClientModule} from "@angular/common/http";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import {MatMenuModule} from "@angular/material/menu";
@@ -61,9 +61,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
   ],
   providers: [
     restInterceptorProvider,
-    ErrorService,
-    WorkItemService,
-    [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}]
+    [{ provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}],
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000}}
   ],
   bootstrap: [AppComponent]
 })

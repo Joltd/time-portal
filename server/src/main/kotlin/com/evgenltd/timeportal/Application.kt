@@ -1,6 +1,6 @@
 package com.evgenltd.timeportal
 
-import com.evgenltd.timeportal.service.util.RestLoggingInterceptor
+import com.evgenltd.timeportal.common.util.RestLoggingInterceptor
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
@@ -11,7 +11,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import java.time.LocalDate
 
 @SpringBootApplication
 @EnableCaching

@@ -2,9 +2,8 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DayWork, WorkItem} from "../model/work-item.model";
-import {environment} from "../../environments/environment";
-import {TypeUtils} from "./type-utils";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {ShortMessageService} from "../common/service/short-message.service";
+import {TypeUtils} from "../common/service/type-utils";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +16,7 @@ export class WorkItemService {
 
   constructor(
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private shortMessageService: ShortMessageService
   ) {
     this.setWeek(new Date())
   }
@@ -31,7 +30,7 @@ export class WorkItemService {
   loadWeek(date: Date) {
     this.loading = true
     this.setWeek(date)
-    this.http.get<DayWork[]>(`${environment.api}/api/work-item?week=${dateToString(this.week)}`, TypeUtils.of(DayWork))
+    this.http.get<DayWork[]>(`/work-item?week=${dateToString(this.week)}`, TypeUtils.of(DayWork))
       .subscribe({
         next: result => this.data = result,
         error: () => this.loading = false,
@@ -41,7 +40,7 @@ export class WorkItemService {
 
   sync() {
     this.loading = true
-    this.http.post<SyncResult>(`${environment.api}/api/work-item/sync?week=${dateToString(this.week)}`, null, TypeUtils.of(SyncResult))
+    this.http.post<SyncResult>(`/work-item/sync?week=${dateToString(this.week)}`, null, TypeUtils.of(SyncResult))
       .subscribe({
         next: result => {
           let messages = []
@@ -55,7 +54,7 @@ export class WorkItemService {
             messages.push("Nothing to sync")
           }
 
-          this.snackBar.open(messages.join(", "), 'X', {duration: 3000})
+          this.shortMessageService.show(messages.join(", "))
           this.loadWeek(this.week)
         },
         error: () => this.loading = false,
@@ -65,7 +64,7 @@ export class WorkItemService {
 
   clearCache() {
     this.loading = true
-    this.http.delete<void>(`${environment.api}/api/task-tracker?week=${dateToString(this.week)}`)
+    this.http.delete<void>(`/task-tracker?week=${dateToString(this.week)}`)
       .subscribe({
         error: () => this.loading = false,
         complete: () => this.loading = false
@@ -73,15 +72,15 @@ export class WorkItemService {
   }
 
   byId(id: string): Observable<WorkItem> {
-    return this.http.get<WorkItem>(`${environment.api}/api/work-item/${id}`, TypeUtils.of(WorkItem))
+    return this.http.get<WorkItem>(`/work-item/${id}`, TypeUtils.of(WorkItem))
   }
 
   update(workItem: WorkItem): Observable<void> {
-    return this.http.post<void>(`${environment.api}/api/work-item`, workItem)
+    return this.http.post<void>(`/work-item`, workItem)
   }
 
   delete(id: string) {
-    this.http.delete<void>(`${environment.api}/api/work-item/${id}`)
+    this.http.delete<void>(`/work-item/${id}`)
       .subscribe(() => this.loadWeek(this.week))
   }
 

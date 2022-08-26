@@ -2,8 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {dateToString, WorkItemService} from "../../service/work-item.service";
 import {WorkItem} from "../../model/work-item.model";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ShortMessageService} from "../../common/service/short-message.service";
 
 @Component({
   selector: 'work-item-editor',
@@ -44,7 +44,7 @@ export class WorkItemEditorComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private workItemService: WorkItemService,
-    private snackBar: MatSnackBar,
+    private shortMessageService: ShortMessageService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}
@@ -80,15 +80,15 @@ export class WorkItemEditorComponent implements OnInit {
     workItem.duration = this.form.get('duration')?.value
 
     if (!workItem.task) {
-      this.snackBar.open('Task is not specified', 'Close', {duration: 3000})
+      this.shortMessageService.show('Task is not specified')
       return
     }
     if (!workItem.date) {
-      this.snackBar.open('Date is not specified', 'Close', {duration: 3000})
+      this.shortMessageService.show('Date is not specified')
       return
     }
     if (!workItem.duration || workItem.duration == 0) {
-      this.snackBar.open('Duration is not specified', 'Close', {duration: 3000})
+      this.shortMessageService.show('Duration is not specified')
       return
     }
 
@@ -96,7 +96,7 @@ export class WorkItemEditorComponent implements OnInit {
     this.workItemService.update(workItem)
       .subscribe({
         next: () => {
-          this.snackBar.open('Done', 'X', {duration: 3000})
+          this.shortMessageService.show('Done')
           this.router.navigate(['work-item'], {queryParams: {'week': workItem.date}}).then()
         },
         error: () => this.form.enable(),
