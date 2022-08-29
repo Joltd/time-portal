@@ -21,7 +21,7 @@ class Application : SpringBootServletInitializer() {
         override fun addCorsMappings(registry: CorsRegistry) {
             registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedOrigins("http://localhost:4200/", "http://127.0.0.1")
+                .allowedOrigins("http://localhost:4200/", "http://localhost:8090/")
         }
     }
 
