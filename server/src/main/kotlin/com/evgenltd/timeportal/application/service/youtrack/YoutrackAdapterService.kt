@@ -23,7 +23,7 @@ class YoutrackAdapterService(
         val headers = HttpHeaders()
         headers.setBearerAuth(properties.token)
 
-        val uriBuilder = UriComponentsBuilder.fromUriString("${properties.url}/workItems")
+        val uriBuilder = UriComponentsBuilder.fromUriString("${properties.url}/api/workItems")
             .queryParam("fields", "id,type(id,name),author(id,name),duration(id,minutes),text,date,issue(idReadable)")
             .queryParam("start", from.toTimestamp())
             .queryParam("end", to.toTimestamp())
@@ -56,7 +56,7 @@ class YoutrackAdapterService(
         headers.setBearerAuth(properties.token)
 
         val result = rest.exchange(
-            "${properties.url}/issues/${task}/timeTracking/workItems",
+            "${properties.url}/api/issues/${task}/timeTracking/workItems",
             HttpMethod.POST,
             HttpEntity(body, headers),
             Unit::class.java
